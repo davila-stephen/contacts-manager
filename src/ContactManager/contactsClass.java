@@ -8,6 +8,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class contactsClass {
 
@@ -32,11 +33,11 @@ public class contactsClass {
 //        System.out.println("----------------------");
 //        printContacts(PathToContact);
 
-
+        Scanner sc = new Scanner(System.in);
         // Main Menue
         boolean looper = true;
         while (looper) {
-            System.out.println("Here are some more options to move forward:");
+            System.out.println("Main Menue:");
             System.out.println("1 - View contacts.");
             System.out.println("2 - Add a new contact.");
             System.out.println("3 - Search a contact by name.");
@@ -47,17 +48,22 @@ public class contactsClass {
                 System.out.println("Name    | Phone Number");
                 System.out.println("----------------------");
                 printContacts(PathToContact);
-
-                looper = false;
             }
             else if (yOrN == 2) {
+                System.out.println("Please type in contact first and last name");
+                String userInput = sc.next();
+                System.out.println("Please enter phone number");
+                int userNumInput = sc.nextInt();
+                String newContact = userInput + " " + Integer.toString(userNumInput);
+                Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+                List<String> contactList = Files.readAllLines(PathToContact);
 
             }
             else if(yOrN == 3) {
-
+                System.out.println("option 3");
             }
             else if (yOrN == 4) {
-
+                System.out.println("option 4");
             }
             else if (yOrN == 5) {
                 looper = false;
