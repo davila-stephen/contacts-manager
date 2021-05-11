@@ -5,16 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class contactsClass {
 
     // View contacts method
     public static void printContacts(Path filePath) throws IOException {
-        System.out.println();
         List<String> fileContents = Files.readAllLines(filePath);
         for (int i = 0; i < fileContents.size(); i++) {
             System.out.printf("%s\n", fileContents.get(i));
@@ -32,6 +28,9 @@ public class contactsClass {
 //        System.out.println("Name    | Phone Number");
 //        System.out.println("----------------------");
 //        printContacts(PathToContact);
+
+        List<String> contactList = Files.readAllLines(PathToContact);
+
 
         Scanner sc = new Scanner(System.in);
         // Main Menue
@@ -51,16 +50,51 @@ public class contactsClass {
             }
             else if (yOrN == 2) {
                 System.out.println("Please type in contact first and last name");
-                String userInput = sc.next();
+                String contactFirstName = sc.next();
+                String contactLastName = sc.next();
                 System.out.println("Please enter phone number");
-                int userNumInput = sc.nextInt();
-                String newContact = userInput + " " + Integer.toString(userNumInput);
-                Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
-                List<String> contactList = Files.readAllLines(PathToContact);
+//                int userNumInput = sc.nextInt();
+                long contactNumber = sc.nextLong();
 
+                String contactFullName = contactFirstName + " " + contactLastName;
+                String newContact =  contactFullName + " " + contactNumber;
+                Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
             }
             else if(yOrN == 3) {
-                System.out.println("option 3");
+                boolean looper2 = true;
+                while (looper2) {
+                    System.out.println("Please type in the name of who you want search up.");
+                    String searchFirstName = sc.next();
+                    String searchLastName = sc.next();
+                    String searchFullName = searchFirstName + " " + searchLastName;
+
+                    if (searchFullName != null) {
+                        //&& contactList.contains(searchFullName.toLowerCase())
+                        for (int i = 0; i < contactList.size(); i += 1) {
+                            if (contactList.get(i).toLowerCase().contains(searchFullName.toLowerCase())) {
+                                System.out.println(contactList.get(i));
+                            }
+                        }
+                    } else {
+                        System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
+                        boolean looper3 = true;
+                        while (looper3) {
+                            String option3YesNo = sc.next();
+                            if (option3YesNo.equalsIgnoreCase("yes")) {
+                                looper2 = true;
+                                looper3 = false;
+                            } else if (option3YesNo.equalsIgnoreCase("no")) {
+                                looper2 = false;
+                                looper3 = false;
+                            } else {
+                                System.out.println("Try again.");
+                                looper2 = true;
+                                looper3 = true;
+                            }
+                        }
+
+                    }
+                }
             }
             else if (yOrN == 4) {
                 System.out.println("option 4");
