@@ -21,15 +21,33 @@ public class contactsClass {
     public static void addContact() throws IOException {
         Scanner sc = new Scanner(System.in);
         Path PathToContact = Paths.get("./src/ContactManager/contacts.txt");
-        System.out.println("Please type in contact first and last name");
-        String contactFirstName = sc.next();
-        String contactLastName = sc.next();
-        System.out.println("Please enter phone number");
-        long contactNumber = sc.nextLong();
 
-        String contactFullName = contactFirstName + " " + contactLastName;
-        String newContact =  contactFullName + " " + contactNumber;
-        Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+        boolean contactLooper = true;
+        while (contactLooper) {
+            System.out.println("Please type in contact first and last name");
+            String contactFirstName = sc.next();
+            String contactLastName = sc.next();
+            System.out.println("Please enter phone number");
+            long contactNumber = sc.nextLong();
+
+            String contactFullName = contactFirstName + " " + contactLastName;
+            String newContact = contactFullName + " " + contactNumber;
+            Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+            System.out.println("Would you like to enter a new contact? enter yes or no");
+
+            boolean looperContact = true;
+            while (looperContact) {
+                String userResponse = sc.next();
+                if (userResponse.equalsIgnoreCase("yes")) {
+                    looperContact = false;
+                } else if (userResponse.equalsIgnoreCase("no")) {
+                    looperContact = false;
+                    contactLooper = false;
+                }else{
+                    System.out.println("Try again!");
+                }
+            }
+        }
     }
 
     // Search Method
