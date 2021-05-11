@@ -17,6 +17,47 @@ public class contactsClass {
         }
     }
 
+    // Search Method
+    public static void searchMethod() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        Path PathToContact = Paths.get("./src/ContactManager/contacts.txt");
+        List<String> contactList = Files.readAllLines(PathToContact);
+        boolean looper2 = true;
+        while (looper2) {
+            System.out.println("Please type in the name of who you want search up.");
+            String searchFirstName = sc.next();
+            String searchLastName = sc.next();
+            String searchFullName = searchFirstName + " " + searchLastName;
+
+            if (searchFullName != null) {
+                //&& contactList.contains(searchFullName.toLowerCase())
+                for (int i = 0; i < contactList.size(); i += 1) {
+                    //System.out.println(contactList.get(i));
+                    if (contactList.get(i).toLowerCase().contains(searchFullName.toLowerCase())) {
+                        System.out.println(contactList.get(i));
+                    }
+                }
+            } else {
+                System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
+                boolean looper3 = true;
+                while (looper3) {
+                    String option3YesNo = sc.next();
+                    if (option3YesNo.equalsIgnoreCase("yes")) {
+                        looper2 = true;
+                        looper3 = false;
+                    } else if (option3YesNo.equalsIgnoreCase("no")) {
+                        looper2 = false;
+                        looper3 = false;
+                    } else {
+                        System.out.println("Try again.");
+                        looper2 = true;
+                        looper3 = true;
+                    }
+                }
+            }
+        }
+    }
+
     // Add a new contact
 
 
@@ -32,11 +73,12 @@ public class contactsClass {
         List<String> contactList = Files.readAllLines(PathToContact);
 
 
+        System.out.println(contactList);
         Scanner sc = new Scanner(System.in);
-        // Main Menue
+        // Main Menu
         boolean looper = true;
         while (looper) {
-            System.out.println("Main Menue:");
+            System.out.println("Main Menu:");
             System.out.println("1 - View contacts.");
             System.out.println("2 - Add a new contact.");
             System.out.println("3 - Search a contact by name.");
@@ -61,40 +103,7 @@ public class contactsClass {
                 Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
             }
             else if(yOrN == 3) {
-                boolean looper2 = true;
-                while (looper2) {
-                    System.out.println("Please type in the name of who you want search up.");
-                    String searchFirstName = sc.next();
-                    String searchLastName = sc.next();
-                    String searchFullName = searchFirstName + " " + searchLastName;
-
-                    if (searchFullName != null) {
-                        //&& contactList.contains(searchFullName.toLowerCase())
-                        for (int i = 0; i < contactList.size(); i += 1) {
-                            if (contactList.get(i).toLowerCase().contains(searchFullName.toLowerCase())) {
-                                System.out.println(contactList.get(i));
-                            }
-                        }
-                    } else {
-                        System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
-                        boolean looper3 = true;
-                        while (looper3) {
-                            String option3YesNo = sc.next();
-                            if (option3YesNo.equalsIgnoreCase("yes")) {
-                                looper2 = true;
-                                looper3 = false;
-                            } else if (option3YesNo.equalsIgnoreCase("no")) {
-                                looper2 = false;
-                                looper3 = false;
-                            } else {
-                                System.out.println("Try again.");
-                                looper2 = true;
-                                looper3 = true;
-                            }
-                        }
-
-                    }
-                }
+                System.out.println("option 3");
             }
             else if (yOrN == 4) {
                 System.out.println("option 4");
