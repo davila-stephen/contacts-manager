@@ -36,14 +36,13 @@ public class contactsClass {
             String searchFullName = searchFirstName + " " + searchLastName;
 
          if (!contactString.toLowerCase().contains(searchFullName.toLowerCase())){
-                for (int a = 0; a < contactList.size(); a += 1) {
-                    if (!contactList.get(a).toLowerCase().contains(searchFullName.toLowerCase())) {
+                //for (int a = 0; a < contactList.size(); a += 1) {
+                    //if (!contactList.get(a).toLowerCase().contains(searchFullName.toLowerCase())) {
                         System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
                         boolean looper3 = true;
                         while (looper3) {
                             String option3YesNo = sc.next();
                             if (option3YesNo.equalsIgnoreCase("yes")) {
-                                //looper2 = true;
                                 looper3 = false;
                                 searchMethod();
                             } else if (option3YesNo.equalsIgnoreCase("no")) {
@@ -51,16 +50,14 @@ public class contactsClass {
                                 looper3 = false;
                             } else {
                                 System.out.println("Try again.");
-                                //                        looper2 = true;
                                 looper3 = true;
                             }
                         }
-                    }
-                }
+                    //}
+                //}
             }
             if (contactString.toLowerCase().contains(searchFullName.toLowerCase())) {
                 for (int i = 0; i < contactList.size(); i += 1) {
-                    //System.out.println(contactList.get(i));
                     if (contactList.get(i).toLowerCase().contains(searchFullName.toLowerCase())) {
                         System.out.println(contactList.get(i));
                         System.out.println("There's your contact! would you like to search for a different one? Please type in yes or no.");
@@ -68,7 +65,6 @@ public class contactsClass {
                         while (looper4) {
                             String option3YesNo = sc.next();
                             if (option3YesNo.equalsIgnoreCase("yes")) {
-                                //looper2 = true;
                                 looper4 = false;
                                 searchMethod();
                             } else if (option3YesNo.equalsIgnoreCase("no")) {
@@ -76,7 +72,7 @@ public class contactsClass {
                                 looper4 = false;
                             } else {
                                 System.out.println("Try again.");
-                                //                        looper2 = true;
+
                                 looper4 = true;
                             }
                         }
