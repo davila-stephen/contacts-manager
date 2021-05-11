@@ -22,6 +22,12 @@ public class contactsClass {
         Scanner sc = new Scanner(System.in);
         Path PathToContact = Paths.get("./src/ContactManager/contacts.txt");
         List<String> contactList = Files.readAllLines(PathToContact);
+
+        String contactString = "";
+
+        for (int a1 = 0; a1 < contactList.size(); a1 += 1){
+            contactString += contactList.get(a1) + " ";
+        }
         boolean looper2 = true;
         while (looper2) {
             System.out.println("Please type in the name of who you want search up.");
@@ -29,34 +35,57 @@ public class contactsClass {
             String searchLastName = sc.next();
             String searchFullName = searchFirstName + " " + searchLastName;
 
-            if (searchFullName != null) {
-                //&& contactList.contains(searchFullName.toLowerCase())
+         if (!contactString.toLowerCase().contains(searchFullName.toLowerCase())){
+                for (int a = 0; a < contactList.size(); a += 1) {
+                    if (!contactList.get(a).toLowerCase().contains(searchFullName.toLowerCase())) {
+                        System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
+                        boolean looper3 = true;
+                        while (looper3) {
+                            String option3YesNo = sc.next();
+                            if (option3YesNo.equalsIgnoreCase("yes")) {
+                                //looper2 = true;
+                                looper3 = false;
+                                searchMethod();
+                            } else if (option3YesNo.equalsIgnoreCase("no")) {
+                                looper2 = false;
+                                looper3 = false;
+                            } else {
+                                System.out.println("Try again.");
+                                //                        looper2 = true;
+                                looper3 = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if (contactString.toLowerCase().contains(searchFullName.toLowerCase())) {
                 for (int i = 0; i < contactList.size(); i += 1) {
                     //System.out.println(contactList.get(i));
                     if (contactList.get(i).toLowerCase().contains(searchFullName.toLowerCase())) {
                         System.out.println(contactList.get(i));
-                    }
-                }
-            } else {
-                System.out.println("Contact not found. Would you like to try and search again? Please input yes or no.");
-                boolean looper3 = true;
-                while (looper3) {
-                    String option3YesNo = sc.next();
-                    if (option3YesNo.equalsIgnoreCase("yes")) {
-                        looper2 = true;
-                        looper3 = false;
-                    } else if (option3YesNo.equalsIgnoreCase("no")) {
-                        looper2 = false;
-                        looper3 = false;
-                    } else {
-                        System.out.println("Try again.");
-                        looper2 = true;
-                        looper3 = true;
+                        System.out.println("There's your contact! would you like to search for a different one? Please type in yes or no.");
+                        boolean looper4 = true;
+                        while (looper4) {
+                            String option3YesNo = sc.next();
+                            if (option3YesNo.equalsIgnoreCase("yes")) {
+                                //looper2 = true;
+                                looper4 = false;
+                                searchMethod();
+                            } else if (option3YesNo.equalsIgnoreCase("no")) {
+                                looper2 = false;
+                                looper4 = false;
+                            } else {
+                                System.out.println("Try again.");
+                                //                        looper2 = true;
+                                looper4 = true;
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
 
     // Add a new contact
 
@@ -65,10 +94,6 @@ public class contactsClass {
         Path PathToContact = Paths.get("./src/ContactManager/contacts.txt");
 
         System.out.println("Files.exists(PathToContact) = " + Files.exists(PathToContact));
-
-//        System.out.println("Name    | Phone Number");
-//        System.out.println("----------------------");
-//        printContacts(PathToContact);
 
         List<String> contactList = Files.readAllLines(PathToContact);
 
@@ -103,7 +128,8 @@ public class contactsClass {
                 Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
             }
             else if(yOrN == 3) {
-                System.out.println("option 3");
+                searchMethod();
+//                System.out.println("option 3");
             }
             else if (yOrN == 4) {
                 System.out.println("option 4");
