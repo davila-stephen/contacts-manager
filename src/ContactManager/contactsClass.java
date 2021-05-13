@@ -9,9 +9,29 @@ import java.util.*;
 
 public class contactsClass {
 
+    // Method for checking if a string is a number value
+    public static boolean isNumeric(String string) {
+        long longValue;
+
+        if(string == null || string.equals("")) {
+            return false;
+        }
+
+        try {
+            longValue = Long.parseLong(string);
+            return true;
+        } catch (NumberFormatException e) {
+//            System.out.println("Input String cannot be parsed to Integer.");
+            return false;
+        }
+    }
+
+
     // View contacts method
     public static void printContacts(Path filePath) throws IOException {
         List<String> fileContents = Files.readAllLines(filePath);
+        System.out.println("Name         |  Phone Number  |");
+        System.out.println("-------------------------------");
         for (int i = 0; i < fileContents.size(); i++) {
             System.out.printf("%s\n", fileContents.get(i));
         }
@@ -28,23 +48,40 @@ public class contactsClass {
             String contactFirstName = sc.next();
             String contactLastName = sc.next();
             System.out.println("Please enter phone number");
-            long contactNumber = sc.nextLong();
+            String sNum = sc.next();
 
             // BONUS PORTION for the dashes in the number
-            String sNum = Long.toString(contactNumber);
-            String dashedNumber = sNum.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
+            String dashedNumber = "";
 
-//            if(sNum.length() == 10){
-//               sNum.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
-//            }
-                System.out.println(dashedNumber);
+            if (isNumeric(sNum)) {
+                if (sNum.length() == 10) {
+                    dashedNumber = sNum.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
+                    String contactFullName = contactFirstName + " " + contactLastName;
+                    String newContact = contactFullName + " " + dashedNumber;
+                    Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+                    System.out.println("Contact successfully added.");
+                } else if (sNum.length() == 7) {
+                    dashedNumber = sNum.replaceFirst("(\\d{3})(\\d+)", "$1-$2");
+                    String contactFullName = contactFirstName + " " + contactLastName;
+                    String newContact = contactFullName + " " + dashedNumber;
+                    Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+                    System.out.println("Contact successfully added.");
+                } else {
+                    dashedNumber = sNum;
+                    String contactFullName = contactFirstName + " " + contactLastName;
+                    String newContact = contactFullName + " " + dashedNumber;
+                    Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+                    System.out.println("Contact successfully added.");
+                }
+            } else {
+                System.out.println("That was not a valid number input.");
+            }
 
-            String contactFullName = contactFirstName + " " + contactLastName;
-
-
-            String newContact = contactFullName + " " + dashedNumber;//sNum;//contactNumber;
-            Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
-            System.out.println("Would you like to enter a new contact? enter yes or no");
+//            String contactFullName = contactFirstName + " " + contactLastName;
+//
+//            String newContact = contactFullName + " " + dashedNumber;
+//            Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+            System.out.println("Would you like to enter a different contact? Enter yes or no");
 
             boolean looperContact = true;
             while (looperContact) {
@@ -146,6 +183,7 @@ public class contactsClass {
                 }
                 contactList = newList;
                 Files.write(PathToContact, contactList);
+                System.out.println("Contact successfully deleted.");
                 System.out.println("Would you like to delete another contact? Please type in yes or no.");
                 String yesNo = sc.next();
                 boolean yesNoLooper = true;
@@ -186,8 +224,6 @@ public class contactsClass {
             System.out.println("5 - Exit");
             int yOrN = sc.nextInt();
             if (yOrN == 1) {
-                System.out.println("Name    | Phone Number");
-                System.out.println("----------------------");
                 printContacts(PathToContact);
             }
             else if (yOrN == 2) {
