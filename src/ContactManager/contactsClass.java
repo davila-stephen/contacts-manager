@@ -21,7 +21,6 @@ public class contactsClass {
             longValue = Long.parseLong(string);
             return true;
         } catch (NumberFormatException e) {
-//            System.out.println("Input String cannot be parsed to Integer.");
             return false;
         }
     }
@@ -36,6 +35,7 @@ public class contactsClass {
             System.out.printf("%s\n", fileContents.get(i));
         }
     }
+
 
     // Add new contact
     public static void addContact() throws IOException {
@@ -55,7 +55,12 @@ public class contactsClass {
             String dashedNumber = "";
 
             if (isNumeric(sNum)) {
-                if (sNum.length() == 10) {
+                if (sNum.length() > 10 && sNum.length() < 16) {
+                    dashedNumber = sNum;
+                    String newContact = contactFullName + " " + dashedNumber;
+                    Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
+                    System.out.println("Contact successfully added.");
+                } else if (sNum.length() == 10) {
                     dashedNumber = sNum.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
                     String newContact = contactFullName + " " + dashedNumber;
                     Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
@@ -66,19 +71,10 @@ public class contactsClass {
                     Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
                     System.out.println("Contact successfully added.");
                 } else {
-                    dashedNumber = sNum;
-                    String newContact = contactFullName + " " + dashedNumber;
-                    Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
-                    System.out.println("Contact successfully added.");
+                    System.out.println("That was not a valid number input.");
                 }
-            } else {
-                System.out.println("That was not a valid number input.");
             }
 
-//            String contactFullName = contactFirstName + " " + contactLastName;
-//
-//            String newContact = contactFullName + " " + dashedNumber;
-//            Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
             System.out.println("Would you like to enter a different contact? Enter yes or no");
 
             boolean looperContact = true;
@@ -95,6 +91,7 @@ public class contactsClass {
             }
         }
     }
+
 
     // Search Method
     public static void searchMethod() throws IOException {
@@ -154,16 +151,16 @@ public class contactsClass {
         }
     }
 
-    // Delete contact method
 
+    // Delete contact method
     public static void deleteMethod() throws IOException {
         Scanner sc = new Scanner(System.in);
         Path PathToContact = Paths.get("./src/ContactManager/contacts.txt");
-        List<String> contactList = Files.readAllLines(PathToContact);
-        List<String> newList = new ArrayList<>();
 
         boolean looperDelete = true;
         while (looperDelete) {
+            List<String> contactList = Files.readAllLines(PathToContact);
+            List<String> newList = new ArrayList<>();
             System.out.println("Please choose one of the contacts below to delete: ");
             for (int i = 0; i < contactList.size(); i++) {
                 System.out.println((i + 1) + ": " + contactList.get(i));
@@ -211,6 +208,7 @@ public class contactsClass {
 
         System.out.println(contactList);
         Scanner sc = new Scanner(System.in);
+
         // Main Menu
         boolean looper = true;
         while (looper) {
@@ -225,15 +223,6 @@ public class contactsClass {
                 printContacts(PathToContact);
             }
             else if (yOrN == 2) {
-//                System.out.println("Please type in contact first and last name");
-//                String contactFirstName = sc.next();
-//                String contactLastName = sc.next();
-//                System.out.println("Please enter phone number");
-//                long contactNumber = sc.nextLong();
-//
-//                String contactFullName = contactFirstName + " " + contactLastName;
-//                String newContact =  contactFullName + " " + contactNumber;
-//                Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
                 addContact();
             }
             else if(yOrN == 3) {
@@ -252,6 +241,4 @@ public class contactsClass {
 
 
     }
-
-
 }
