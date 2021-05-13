@@ -47,6 +47,7 @@ public class contactsClass {
             System.out.println("Please type in contact first and last name");
             String contactFirstName = sc.next();
             String contactLastName = sc.next();
+            String contactFullName = contactFirstName + " " + contactLastName;
             System.out.println("Please enter phone number");
             String sNum = sc.next();
 
@@ -56,19 +57,16 @@ public class contactsClass {
             if (isNumeric(sNum)) {
                 if (sNum.length() == 10) {
                     dashedNumber = sNum.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
-                    String contactFullName = contactFirstName + " " + contactLastName;
                     String newContact = contactFullName + " " + dashedNumber;
                     Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
                     System.out.println("Contact successfully added.");
                 } else if (sNum.length() == 7) {
                     dashedNumber = sNum.replaceFirst("(\\d{3})(\\d+)", "$1-$2");
-                    String contactFullName = contactFirstName + " " + contactLastName;
                     String newContact = contactFullName + " " + dashedNumber;
                     Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
                     System.out.println("Contact successfully added.");
                 } else {
                     dashedNumber = sNum;
-                    String contactFullName = contactFirstName + " " + contactLastName;
                     String newContact = contactFullName + " " + dashedNumber;
                     Files.write(PathToContact, Arrays.asList(newContact), StandardOpenOption.APPEND);
                     System.out.println("Contact successfully added.");
